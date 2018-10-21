@@ -66,15 +66,23 @@ def login_or_register(request):
 			return render(request, 'bookdb/index.html', {'recommended': list_of_isbns})
 
 def book_detail(request, isbn):
+	print(1)
 	if not request.user.is_authenticated:
+		print(2)
 		return redirect('bookdb:home')
 	try:
+		print(3)
 		book = Book.objects.get(isbn=isbn)
+		print(4)
 		comments = Comment.objects.filter(book=book).order_by('-time_of_comment')
+		print(5)
 		avg_rating = Rating.objects.filter(book=book).aggregate(Avg('rating'))['rating__avg']
-		return render(request, 'book_detail.html', {'isbn': isbn, 'comments': comments, 'avg_rating': avg_rating})
+		print(6)
+		return render(request, 'bookdb/book_detail.html', {'isbn': isbn, 'comments': comments, 'avg_rating': avg_rating})
 	except Exception as e:
+		print(7)
 		print(e)
+	print(8)
 	return redirect('bookdb:home')
 
 def rate_book(request, isbn):
