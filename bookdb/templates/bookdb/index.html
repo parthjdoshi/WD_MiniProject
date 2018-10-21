@@ -2,125 +2,39 @@
 {% block content %}
 {% load static %}
 <body>
-<!-- header -->
-	<div class="header">
-		<div class="container">
-			<div class="w3layouts_logo">
-				<a href="index.html"><h1>One<span>Movies</span></h1></a>
-			</div>
-			<div class="w3_search">
-				<form action="#" method="post">
-					<input type="text" name="Search" placeholder="Search" required="">
-					<input type="submit" value="Go">
-				</form>
-			</div>
-			<div class="w3l_sign_in_register">
-				<ul>
-					<li><i class="fa fa-phone" aria-hidden="true"></i> (+000) 123 345 653</li>
-          {% if not request.user.is_authenticated %}
-					     <li><a href="#" data-toggle="modal" data-target="#myModal">Login </a></li>
-          {% else %}
-              <li><a href="{% url 'bookdb:logout' %}">Logout</a></li>
-          {% endif %}
-				</ul>
-			</div>
-			<div class="clearfix"> </div>
-		</div>
-	</div>
-<!-- //header -->
-<!-- bootstrap-pop-up -->
-	<div class="modal video-modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModal">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					Sign In & Sign Up
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				</div>
-				<section>
-					<div class="modal-body">
-						<div class="w3_login_module">
-							<div class="module form-module">
-							  <div class="toggle"><i class="fa fa-times fa-pencil"></i>
-								<div class="tooltip">Register</div>
-							  </div>
-							  <div class="form">
-								<h3>Login to your account</h3>
-								<form action="{% url 'bookdb:home' %}" method="post" enctype="multipart/form-data">
-                  {% csrf_token %}
-								  <input type="text" name="username" placeholder="Username" required="">
-								  <input type="password" name="password" placeholder="Password" required="">
-                  <input type="hidden" name="flag" value="login">
-								  <input type="submit" value="Login">
-								</form>
-							  </div>
-							  <div class="form">
-								<h3>Create an account</h3>
-								<form action="{% url 'bookdb:home' %}" method="post" enctype="multipart/form-data">
-                  {% csrf_token %}
-								  <input type="text" name="username" placeholder="Username" required="">
-								  <input type="password" name="password" placeholder="Password" required="">
-								  <input type="text" name="first_name" placeholder="First Name" required="">
-								  <input type="text" name="last_name" placeholder="Last Name" required="">
-                  <input type="file" name="photo" accept="image/*" placeholder="Upload Photo">
-                  <input type="hidden" name="flag" value="register">
-								  <input type="submit" value="Register">
-								</form>
-							  </div>
-							  <div class="cta"><a href="#">Forgot your password?</a></div>
-							</div>
-						</div>
-					</div>
-				</section>
-			</div>
-		</div>
-	</div>
-	<script>
-		$('.toggle').click(function(){
-		  // Switches the Icon
-		  $(this).children('i').toggleClass('fa-pencil');
-		  // Switches the forms
-		  $('.form').animate({
-			height: "toggle",
-			'padding-top': 'toggle',
-			'padding-bottom': 'toggle',
-			opacity: "toggle"
-		  }, "slow");
-		});
-	</script>
-<!-- //bootstrap-pop-up -->
-<!-- nav -->
-	<div class="movies_nav">
-		<div class="container">
-			<nav class="navbar navbar-default">
-				<div class="navbar-header navbar-left">
-					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-						<span class="sr-only">Toggle navigation</span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
-				</div>
-				<!-- Collect the nav links, forms, and other content for toggling -->
-				<div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
-					<nav>
-						<ul class="nav navbar-nav">
-							<li class="active"><a href="index.html">Home</a></li>
-							{% if request.user.is_authenticated %}
-							<li><a href="#">Dashboard</a></li>
-							<li><a href="#">Recommendations</a></li>
-
-							<li><a href="#">Logout</a></li>
-							{% else %}
-							<li><a href="#">Register</a></li>
-							{% endif %}
-						</ul>
-					</nav>
-				</div>
-			</nav>
-		</div>
-	</div>
 <!-- //nav -->
 <!-- banner -->
+<div class="movies_nav">
+	<div class="container">
+		<nav class="navbar navbar-default">
+			<div class="navbar-header navbar-left">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+			</div>
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
+				<nav>
+					<ul class="nav navbar-nav">
+						<li class="active"><a href="index.html">Home</a></li>
+						<li><a href="{% url 'bookdb:search' %}">Search</a></li>
+						{% if request.user.is_authenticated %}
+						<li><a href="#">Dashboard</a></li>
+						<li><a href="#">Recommendations</a></li>
+
+						<li><a href="#">Logout</a></li>
+						{% else %}
+						<li><a href="#">Register</a></li>
+						{% endif %}
+					</ul>
+				</nav>
+			</div>
+		</nav>
+	</div>
+</div>
 	<div id="slidey" style="display:none;">
 		<ul>
 			<li><img src="{% static 'bookdb/images/5.jpg' %}" alt=" ">
@@ -203,17 +117,6 @@
 			</div>
 		</div>
 	</div>
-<!-- //banner-bottom -->
-<div class="general_social_icons">
-	<nav class="social">
-		<ul>
-			<li class="w3_twitter"><a href="#">Twitter <i class="fa fa-twitter"></i></a></li>
-			<li class="w3_facebook"><a href="#">Facebook <i class="fa fa-facebook"></i></a></li>
-			<li class="w3_dribbble"><a href="#">Dribbble <i class="fa fa-dribbble"></i></a></li>
-			<li class="w3_g_plus"><a href="#">Google+ <i class="fa fa-google-plus"></i></a></li>
-		</ul>
-  </nav>
-</div>
 <!-- general -->
 
 <!-- //general -->

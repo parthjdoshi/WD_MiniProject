@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<div class="movies_nav">
+  <div class="container">
+    <nav class="navbar navbar-default">
+      <div class="navbar-header navbar-left">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
+        <nav>
+          <ul class="nav navbar-nav">
+            <li><a href="index.html">Home</a></li>
+            <li class="active"><a href="{% url 'bookdb:search' %}">Search</a></li>
+            {% if request.user.is_authenticated %}
+            <li><a href="#">Dashboard</a></li>
+            <li><a href="#">Recommendations</a></li>
+
+            <li><a href="#">Logout</a></li>
+            {% else %}
+            <li><a href="#">Register</a></li>
+            {% endif %}
+          </ul>
+        </nav>
+      </div>
+    </nav>
+  </div>
+</div>
+<br/><br/><br/>
+<div style="margin:auto; margin-left:380px">
+<div class="w3_search">
+  <form id="myform">
+    <input type="text" name="Search" placeholder="Search" required="" id="books">
+    <input type="submit" value="Go">
+  </form>
+</div>
+<br/><br/><br/><br/><br/><br/>
+<script>
+  $(document).ready(function(){
+    $("#myform").submit(function(e){
+      e.preventDefault();
+      console.log("njsdgjn");
+      var search = $("#books").val();
+      console.log(search);
+      if(search==""){
+        alert("Please enter something in the field first.")
+      }else{
+        var url = '';
+        var img = '';
+        var title = '';
+        var author = '';
+        $.get("https://www.googleapis.com/books/v1/volumes?q="+search,function(response){
+          console.log(response);
+
+          for(i=0;i<response.items.length;i++){
+            try{
+            var res = response["items"][i];
+            var pic = res["volumeInfo"]["imageLinks"]["thumbnail"];
+            var description = res["volumeInfo"]["description"];
+            var title = res["volumeInfo"]["title"];
+            var avr = res["volumeInfo"]["averageRating"];
+            var auth = res["volumeInfo"]["authors"][0];
+            var isbn = res["volumeInfo"]["industryIdentifiers"][1]["identifier"];
+            var urltodetails = "/site/book/"+isbn;
+            console.log(urltodetails,"linj");
+
+          }catch(err){continue;}
+            console.log(res);
+            x=$(`<div class="">
+              <div class="col-md-6 col-md-offset-1">
+                <div class="col-sm-5 wthree-news-img">
+                  <a href="`+urltodetails+`"><img src="`+ pic +`" alt="" /></a>
+                </div>
+                <div class="col-sm-7 wthree-news-info">
+                  <h5><a href="`+urltodetails+`">`+title+`</a></h5>
+                  <p>`+description+`</p>
+                  <ul>
+                    <li><i class="fa fa-clock-o" aria-hidden="true"></i> 24/09/2016</li>
+                    <li><i class="fa fa-eye" aria-hidden="true"></i> 2642</li>
+                  </ul>
+                </div>
+                <div class="clearfix"> </div>
+              </div>
+              <div class="clearfix"> </div>
+            </div><br/><br/><br/>`);
+            $("#result").append(x)
+          }
+        });
+      }
+    })
+    return false;
+  });
+</script>
+<div id="result" style="width:1000px"></div>
+</div>
+{% endblock %}

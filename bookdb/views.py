@@ -10,6 +10,10 @@ from django.contrib.auth import logout
 
 client = RecombeeClient('wd-project', 'DDf4VljyLxNsbdLtWT1jueFbVsanOWCwbEW59cTpp1W3LB3JlpeT3jqZQ1k7S7sN')
 
+def searchBook(request):
+	if request.method == 'GET':
+		return render(request, 'bookdb/search.html', {})
+
 def home(request):
 	return render(request, 'index.html', {})
 
@@ -67,7 +71,9 @@ def login_or_register(request):
 			return render(request, 'bookdb/index.html', {'recommended': list_of_isbns[6:16], 'top':list_of_isbns[0:6]})
 
 def book_detail(request, isbn):
+	print("/"*100)
 	if not request.user.is_authenticated:
+		print("+"*100)
 		return redirect('bookdb:home')
 	try:
 		book = Book.objects.get(isbn=isbn)
@@ -75,6 +81,7 @@ def book_detail(request, isbn):
 		avg_rating = Rating.objects.filter(book=book).aggregate(Avg('rating'))['rating__avg']
 		return render(request, 'book_detail.html', {'isbn': isbn, 'comments': comments, 'avg_rating': avg_rating})
 	except Exception as e:
+		print("-"*100)
 		print(e)
 	return redirect('bookdb:home')
 
