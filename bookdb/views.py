@@ -50,13 +50,13 @@ def login_or_register(request):
 
 			for book in list_of_books:
 				list_of_isbns.append(book.isbn)
-			return render(request, 'index.html', {'list_of_isbns': list_of_isbns})
+			return render(request, 'bookdb/index.html', {'list_of_isbns': list_of_isbns})
 		else:
 			# TODO: return some specific recommendations here
-			recommended = client.send(RecommendItemsToUser(user.id, 10))
+			recommended = client.send(RecommendItemsToUser(user.id, 10), cascade_create=True)
 			for r in recommended['recomms']:
 				list_of_isbns.append(r.get('id',''))
-			return render(request, 'index.html', {'recommended': list_of_isbns})
+			return render(request, 'bookdb/index.html', {'recommended': list_of_isbns})
 
 def book_detail(request, isbn):
 	if not request.user.is_authenticated:
