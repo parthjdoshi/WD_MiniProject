@@ -117,3 +117,20 @@ def comment(request, isbn):
 	except Exception as e:
 		print(e)
 	return redirect('bookdb:home')
+
+def dashboard(request):
+	if not request.user.is_authenticated:
+		return redirect('bookdb:home')
+	try:
+		user = request.user
+		profile = user.profile.first()
+		recommended = client.send(RecommendItemsToUser(user.id, 10, cascade_create=True))
+		recommendations = []
+		for r in recommended['recomms']:
+			recommendations.append(r.get('id',''))
+		comments = profile.user_comments.all().order_by('-time_of_comment')
+		ratings = profile.user_ratings.all()
+		return render(request, 'bookdb/dashboard.html', {'profile': profile, 'recommendations': recommendations, 'comments': comments, 'ratings': ratings})
+	except Exception as e:
+		print(e)
+	return render('bookdb:home')
