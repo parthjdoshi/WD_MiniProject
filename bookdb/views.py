@@ -2,6 +2,12 @@ from django.shortcuts import render
 from .models import *
 from django.db.models import Max, Avg
 from django.contrib.auth import login, authenticate
+import random
+from recombee_api_client.api_client import RecombeeClient
+from recombee_api_client.exceptions import APIException
+from recombee_api_client.api_requests import *
+
+client = RecombeeClient('wd-project', 'DDf4VljyLxNsbdLtWT1jueFbVsanOWCwbEW59cTpp1W3LB3JlpeT3jqZQ1k7S7sN')
 
 def home(request):
 	return render(request, 'index.html', {})
@@ -37,12 +43,20 @@ def login_or_register(request):
 				return render(request, 'index.html', {'error': 'Incorrect username or password'})
 	else:
 		user = request.user
+		list_of_isbns = []
 		if not user.is_authenticated():
 			# TODO: return some random isbn numbers here
-			return render(request, 'index.html', {})
+			list_of_books = Book.objects.all().order_by("?")[:10]
+			
+			for book in list_of_books:
+				list_of_isbns.append(book.isbn)
+			return render(request, 'index.html', {'list_of_isbns': list_of_isbns})
 		else:
 			# TODO: return some specific recommendations here
-			return render(request, 'index.html', {})
+			recommended = client.send(RecommendItemsToUser(user.id, 10))
+			for r in recommended['recomms']:
+				list_of_isbns.append(r.get('id',''))
+			return render(request, 'index.html', {'recommended': list_of_isbns})
 
 def book_detail(request, isbn):
 	if not request.user.is_authenticated:
