@@ -34,15 +34,15 @@ def login_or_register(request):
 				login(request, user)
 				return redirect('bookdb:home')
 			else:
-				return render(request, 'index.html', {'error': 'Incorrect username or password'})
+				return render(request, 'bookdb/index.html', {'error': 'Incorrect username or password'})
 	else:
 		user = request.user
-		if not user.is_authenticated():
-			# TODO: return some random isbn numbers here
-			return render(request, 'index.html', {})
+		if not user.is_authenticated:
+			# TODOO: return some random isbn numbers here
+			return render(request, 'bookdb/index.html', {})
 		else:
-			# TODO: return some specific recommendations here
-			return render(request, 'index.html', {})
+			# TODOO: return some specific recommendations here
+			return render(request, 'bookdb/index.html', {})
 
 def book_detail(request, isbn):
 	if not request.user.is_authenticated:
