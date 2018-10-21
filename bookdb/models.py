@@ -9,7 +9,7 @@ class UserProfile(models.Model):
 class Book(models.Model):
 	name = models.CharField(max_length=200, null=True, blank=True)
 	edition = models.CharField(max_length=50, null=True, blank=True)
-	isbn = models.CharField(max_length=100, pk=True, unique=True)
+	isbn = models.CharField(max_length=100, primary_key=True, unique=True)
 	cover = models.ImageField(upload_to='books')
 	uploader = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='books', null=True, blank=True)
 
