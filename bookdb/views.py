@@ -6,11 +6,16 @@ import random
 from recombee_api_client.api_client import RecombeeClient
 from recombee_api_client.exceptions import APIException
 from recombee_api_client.api_requests import *
+from django.contrib.auth import logout
 
 client = RecombeeClient('wd-project', 'DDf4VljyLxNsbdLtWT1jueFbVsanOWCwbEW59cTpp1W3LB3JlpeT3jqZQ1k7S7sN')
 
 def home(request):
 	return render(request, 'index.html', {})
+
+def user_logout(request):
+    logout(request)
+    return redirect('bookdb:home')
 
 def login_or_register(request):
 	if request.method == 'POST':
@@ -19,7 +24,7 @@ def login_or_register(request):
 			uid = User.objects.aggregate(Max('id'))['id__max'] + 1
 			username = data.get('username', '')
 			# [TODO] show an appropriate error message in case of same username
-			if username == '' or User.objects.filter(usnername=username).count() > 0:
+			if username == '' or User.objects.filter(username=username).count() > 0:
 				return render(request, 'index.html', {'error': 'Repeated username'})
 			user = User(id=uid)
 			user.username = username
