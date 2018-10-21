@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import *
 from django.db.models import Max, Avg
 from django.contrib.auth import login, authenticate
@@ -42,6 +42,7 @@ def login_or_register(request):
 			else:
 				return render(request, 'bookdb/index.html', {'error': 'Incorrect username or password'})
 	else:
+		print("HIII")
 		user = request.user
 		list_of_isbns = []
 		if not user.is_authenticated:
@@ -53,9 +54,10 @@ def login_or_register(request):
 			return render(request, 'bookdb/index.html', {'list_of_isbns': list_of_isbns})
 		else:
 			# TODO: return some specific recommendations here
-			recommended = client.send(RecommendItemsToUser(user.id, 10), cascade_create=True)
+			recommended = client.send(RecommendItemsToUser(user.id, 10, cascade_create=True))
 			for r in recommended['recomms']:
 				list_of_isbns.append(r.get('id',''))
+			print(list_of_isbns)
 			return render(request, 'bookdb/index.html', {'recommended': list_of_isbns})
 
 def book_detail(request, isbn):
