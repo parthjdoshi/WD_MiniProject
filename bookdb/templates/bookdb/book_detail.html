@@ -173,59 +173,114 @@
 			<div class="single-page-agile-info">
                    <!-- /movie-browse-agile -->
                            <div class="show-top-grids-w3lagile">
+                <script type="text/javascript">
+                	$(document).ready(function() {
+						var key = "AIzaSyAUC4Z83BwfqovC75_njClnnSi8_Qu-avE";
+						var isbn = "{{ isbn }}";
+						var gurl = "https://www.googleapis.com/books/v1/volumes?q=isbn:" + isbn + "&key=" + key;
+						console.log(gurl)
+
+						$.ajax({url: gurl, success: function(result) {
+							console.log(result, "hahaha");
+							var res = result["items"][0];
+							var pic = res["volumeInfo"]["imageLinks"]["large"];
+							if (pic == null) {
+								pic = res["volumeInfo"]["imageLinks"]["thumbnail"];
+							}
+							var description = res["searchInfo"]["textSnippet"];
+							var pdfAvailable = res["accessInfo"]["pdf"]["isAvailable"]
+        					var readerLink = res["accessInfo"]["webReaderLink"]
+        					var title = res["volumeInfo"]["title"]
+        					$("img[id='img{{isbn}}']").attr('src', pic);
+        					$("h3[id='title{{isbn}}']").text(title);
+        					$("p[id='desc{{isbn}}']").text(description);
+						}})
+					})
+                </script>
 				<div class="col-sm-8 single-left">
 					<div class="song">
 						<div class="song-info">
-							<h3>THE LEGEND OF TARZAN - Official Trailer 2</h3>	
+							<h3 id="title{{isbn}}">THE LEGEND OF TARZAN - Official Trailer 2</h3>	
 					</div>
-						<div class="video-grid-single-page-agileits">
-							<div data-video="dLmKio67pVQ" id="video"> <img src="images/5.jpg" alt="" class="img-responsive" /> </div>
+						<div class="image-grid-single-page-agileits">
+							<img src="images/5.jpg" alt="" class="img-responsive" id="img{{isbn}}"/>
 						</div>
 					</div>
 					
+					<p id="desc{{isbn}}"></p>
+					<p>Average Rating: {{ avg_rating }}</p>
+					<form action="{% url 'bookdb:rate_book' isbn %}" method="post">
+						{% csrf_token %}
+						Your Rating: <input type="number" name="rating" min="0" max="10" required>
+						<input type="submit" value="RATE">
+					</form>
+
 					<div class="clearfix"> </div>
 
 					<div class="all-comments">
 						<div class="all-comments-info">
-							<a href="#">Comments</a>
+							<h3>Comments</h3>
 							<div class="agile-info-wthree-box">
-								<form action="{% url 'bookdb:comment' isbn %}">
-									<textarea placeholder="Message" name="text" required=""></textarea>
+								<form action="{% url 'bookdb:comment' isbn %}" method="post">
+									{% csrf_token %}
+									<textarea placeholder="Message" name="text" required></textarea>
 									<input type="submit" value="SEND">
 									<div class="clearfix"> </div>
 								</form>
 							</div>
 						</div>
 						<div class="media-grids">
+							{% for comment in comments %}
 							<div class="media">
-								<h5>TOM BROWN</h5>
+								<h5>{{ comment.user.user.first_name }} {{ comment.user.user.last_name }}</h5>
 								<div class="media-left">
-									<a href="#">
-										<img src="images/user.jpg" title="One movies" alt=" " />
-									</a>
+									
+									<img src="{{comment.user.photo.url}}" title="One movies" alt=" " height="60px" width="60px"/>
+									
 								</div>
 								<div class="media-body">
-									<p>Maecenas ultricies rhoncus tincidunt maecenas imperdiet ipsum id ex pretium hendrerit maecenas imperdiet ipsum id ex pretium hendrerit</p>
+									<p>{{comment.text}}</p>
 								</div>
 							</div>
+							{% endfor %}
 
 						</div>
 					</div>
 				</div>
 				<div class="col-md-4 single-right">
-					<h3>Up Next</h3>
+					<h3>Similar Books</h3>
 					<div class="single-grid-right">
+						{% for i in similar %}
+						<script>
+							$(document).ready(function() {
+								var key = "AIzaSyAUC4Z83BwfqovC75_njClnnSi8_Qu-avE";
+								var isbn = "{{ i }}";
+								var gurl = "https://www.googleapis.com/books/v1/volumes?q=isbn:" + isbn + "&key=" + key;
+								console.log(gurl)
+
+								$.ajax({url: gurl, success: function(result) {
+									console.log(result, "hi");
+									var res = result["items"][0];
+									var pic = res["volumeInfo"]["imageLinks"]["thumbnail"];
+									var description = res["searchInfo"]["textSnippet"];
+									var pdfAvailable = res["accessInfo"]["pdf"]["isAvailable"]
+                					var readerLink = res["accessInfo"]["webReaderLink"]
+                					var title = res["volumeInfo"]["title"]
+                					$("img[id='img{{i}}']").attr('src', pic);
+                					$("a[id='title{{i}}']").text(title);
+								}})
+							})
+						</script>
 						<div class="single-right-grids">
 							<div class="col-md-4 single-right-grid-left">
-								<a href="single.html"><img src="images/m1.jpg" alt="" /></a>
+								<a href="{% url 'bookdb:book_detail' i %}"><img src="images/m1.jpg" alt="" id="img{{i}}"/></a>
 							</div>
 							<div class="col-md-8 single-right-grid-right">
-								<a href="single.html" class="title"> Nullam interdum metus</a>
-								<p class="author"><a href="#" class="author">John Maniya</a></p>
-								<p class="views">2,114,200 views</p>
+								<a href="{% url 'bookdb:book_detail' i %}" class="title" id="title{{i}}"> Nullam interdum metus</a>
 							</div>
 							<div class="clearfix"> </div>
 						</div>
+						{% endfor %}
 
 					</div>
 				</div>
