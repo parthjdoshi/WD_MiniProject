@@ -69,3 +69,43 @@ def book_detail(request, isbn):
 	except Exception as e:
 		print(e)
 	return redirect('bookdb:home')
+
+def rate_book(request, isbn):
+	if not request.user.is_authenticated:
+		return redirect('bookdb:home')
+	if request.method == 'GET':
+		return redirect('bookdb:book_detail', isbn=isbn)
+	try:
+		book = Book.objects.get(isbn=isbn)
+		r = request.POST.get('rating', 0)
+		profile = request.user.profile.first()
+		rating, created = Rating.objects.get_or_create(user=profile, book=book)
+		rating.rating = r
+		rating.save()
+		
+		try:
+			client.send(AddRating(str(request.user.id), isbn, (int(r)-5)/5, cascade_create=True))
+		except APIException as e:
+			print(e)
+
+		return redirect('bookdb:book_detail', isbn=isbn)
+	except Exception as e:
+		print(e)
+	return redirect('bookdb:home')
+
+def comment(request, isbn):
+	if not request.user.is_authenticated:
+		return redirect('bookdb:home')
+	if request.method == 'GET':
+		return redirect('bookdb:book_detail', isbn=isbn)
+	try:
+		book = Book.objects.get(isbn=isbn)
+		text = request.POST.get('text', '')
+		profile = request.user.profile.first()
+		comment, created = Comment.objects.get_or_create(user=profile, book=book)
+		comment.text = text
+		comment.save()
+		return redirect('bookdb:book_detail', isbn=isbn)
+	except Exception as e:
+		print(e)
+	return redirect('bookdb:home')
