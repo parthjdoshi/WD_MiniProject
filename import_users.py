@@ -19,11 +19,11 @@ def main():
 				user.save()
 				profile = UserProfile(user=user)
 				profile.save()
+			profile = UserProfile.objects.get(user=user)
 			book, created = Book.objects.get_or_create(isbn=row[1])
 			book.save()
 			rating, created = Rating.objects.get_or_create(user=profile, book=book)
-			if not created:
-				rating.rating = int(row[2])
+			rating.rating = int(row[2])
 			rating.save()
 			print(count)
 

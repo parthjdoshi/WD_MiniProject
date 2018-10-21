@@ -64,25 +64,31 @@ def login_or_register(request):
 			return render(request, 'bookdb/index.html', {'recommended': list_of_isbns[6:16], 'top':list_of_isbns[0:6]})
 		else:
 			# TODO: return some specific recommendations here
-			recommended = client.send(RecommendItemsToUser(user.id, 16, cascade_create=True))
+			recommended = client.send(RecommendItemsToUser(str(user.id), 16, cascade_create=True))
 			for r in recommended['recomms']:
 				list_of_isbns.append(r.get('id',''))
 			print(list_of_isbns)
 			return render(request, 'bookdb/index.html', {'recommended': list_of_isbns[6:16], 'top':list_of_isbns[0:6]})
 
 def book_detail(request, isbn):
-	print("/"*100)
+	print(1)
 	if not request.user.is_authenticated:
-		print("+"*100)
+		print(2)
 		return redirect('bookdb:home')
 	try:
+		print(3)
 		book = Book.objects.get(isbn=isbn)
+		print(4)
 		comments = Comment.objects.filter(book=book).order_by('-time_of_comment')
-		avg_rating = Rating.objects.filter(book=book).aggregate(Avg('rating'))['rating__avg']
-		return render(request, 'book_detail.html', {'isbn': isbn, 'comments': comments, 'avg_rating': avg_rating})
+		print(5)
+		avg_rating = Rating.objects.filter(book=book).aggregate(Avg('rating')).get('rating__avg', 0)
+		print(6)
+		similar_books = [x.get('id', '') for x in client.send(RecommendItemsToItem(isbn, None, 10, cascade_create=True))['recomms']]
+		return render(request, 'bookdb/book_detail.html', {'isbn': isbn, 'comments': comments, 'avg_rating': avg_rating, 'similar': similar_books})
 	except Exception as e:
-		print("-"*100)
+		print(7)
 		print(e)
+	print(8)
 	return redirect('bookdb:home')
 
 def rate_book(request, isbn):
@@ -117,6 +123,7 @@ def comment(request, isbn):
 		book = Book.objects.get(isbn=isbn)
 		text = request.POST.get('text', '')
 		profile = request.user.profile.first()
+		print("Profile", profile)
 		comment, created = Comment.objects.get_or_create(user=profile, book=book)
 		comment.text = text
 		comment.save()
