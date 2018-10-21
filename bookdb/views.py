@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.models import *
+from .models import *
 from django.db.models import Max
 from django.contrib.auth import login, authenticate
 
