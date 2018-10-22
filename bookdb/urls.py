@@ -9,5 +9,5 @@ urlpatterns = [
 	path('book/<str:isbn>/', views.book_detail, name='book_detail'),
 	path('book/<str:isbn>/rate/', views.rate_book, name='rate_book'),
 	path('book/<str:isbn>/comment/', views.comment, name='comment'),
-    path('logout/$', views.user_logout, name='logout'),
+    path('logout/', views.user_logout, name='logout'),
 ]
