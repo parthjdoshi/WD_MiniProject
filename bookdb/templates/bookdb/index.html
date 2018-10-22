@@ -75,7 +75,7 @@ Then write. If it's good, you'll find out. If it's not, throw it out of the wind
           {% for i in recommended %}
           <script>
           $(document).ready(function(){
-            var key = "AIzaSyCtDw2NDM3azfziwHJxACUII9W4j6POT0c";
+            var key = "AIzaSyB_N-jreVUSvft65nwKlpX9tut2kpK_B7k";
 						var isbn="{{i}}";
 						var gurl2 = "https://www.googleapis.com/books/v1/volumes?q=isbn:"+isbn
 
@@ -85,24 +85,34 @@ Then write. If it's good, you'll find out. If it's not, throw it out of the wind
             $.ajax({url: gurl, success: function(result){
                 console.log(result,"hahaha");
                 var res = result["items"][0];
-                var pic = res["volumeInfo"]["imageLinks"]["thumbnail"];
-                var description = res["searchInfo"]["textSnippet"]
-                var pdfAvailable = res["accessInfo"]["pdf"]["isAvailable"]
-                var readerLink = res["accessInfo"]["webReaderLink"]
-                var title = res["volumeInfo"]["title"]
-								var avr = res["volumeInfo"]["averageRating"]
-								var auth = res["volumeInfo"]["authors"][0]
+								var pic;
+								if(res["volumeInfo"]["imageLinks"]!=undefined){
+									if(res["volumeInfo"]["imageLinks"]["thumbnail"]==undefined)
+	                	{pic = res["volumeInfo"]["imageLinks"]["smallThumbnail"];}
+									else{
+										pic=res["volumeInfo"]["imageLinks"]["thumbnail"];
+									}
+								}
+								else{
+									pic="{% static 'bookdb/images/imnv.png' %}";
+								}
+                var description = res["volumeInfo"]["description"];
+                var pdfAvailable = res["accessInfo"]["pdf"]["isAvailable"];
+                var readerLink = res["accessInfo"]["webReaderLink"];
+                var title = res["volumeInfo"]["title"];
+								var avr = res["volumeInfo"]["averageRating"];
+								var auth = res["volumeInfo"]["authors"][0];
                 $("img[id='img{{i}}']").attr('src', pic);
                 $("a[id='title{{i}}']").text(title);
 								$("p[id='avr{{i}}']").text(avr);
-								$("p[id='auth{{i}}']").text(auth)
+								$("p[id='auth{{i}}']").text(auth);
             }});
           });
           </script>
 					<div class="item">
 						<div class="w3l-movie-gride-agile w3l-movie-gride-agile1">
 							<a href="{% url 'bookdb:book_detail' i %}" class="hvr-shutter-out-horizontal">
-                <img src="images/m13.jpg" title="album-name" class="img-responsive" alt=" " id="img{{i}}"/>
+                <img src="{% static 'bookdb/images/imnv.png' %}" title="album-name" class="img-responsive" alt=" " id="img{{i}}"/>
 								<div class="w3l-action-icon"><i class="fa fa-play-circle" aria-hidden="true"></i></div>
 							</a>
 							<div class="mid-1 agileits_w3layouts_mid_1_home">

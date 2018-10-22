@@ -56,19 +56,19 @@ def login_or_register(request):
 		list_of_isbns = []
 		if not user.is_authenticated:
 			# TODO: return some random isbn numbers here
-			list_of_books = Book.objects.all().order_by("?")[:16]
+			list_of_books = Book.objects.all().order_by("?")[:10]
 
 			for book in list_of_books:
 				list_of_isbns.append(book.isbn)
 			print(list_of_isbns)
-			return render(request, 'bookdb/index.html', {'recommended': list_of_isbns[6:16], 'top':list_of_isbns[0:6]})
+			return render(request, 'bookdb/index.html', {'recommended': list_of_isbns})
 		else:
 			# TODO: return some specific recommendations here
-			recommended = client.send(RecommendItemsToUser(str(user.id), 16, cascade_create=True))
+			recommended = client.send(RecommendItemsToUser(str(user.id), 10, cascade_create=True))
 			for r in recommended['recomms']:
 				list_of_isbns.append(r.get('id',''))
 			print(list_of_isbns)
-			return render(request, 'bookdb/index.html', {'recommended': list_of_isbns[6:16], 'top':list_of_isbns[0:6]})
+			return render(request, 'bookdb/index.html', {'recommended': list_of_isbns})
 
 def book_detail(request, isbn):
 	print(1)
