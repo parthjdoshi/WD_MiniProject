@@ -77,13 +77,16 @@ def book_detail(request, isbn):
 		return redirect('bookdb:home')
 	try:
 		print(3)
-		book = Book.objects.get(isbn=isbn)
+		print(isbn)
+		book, created = Book.objects.get_or_create(isbn=isbn)
 		print(4)
 		comments = Comment.objects.filter(book=book).order_by('-time_of_comment')
 		print(5)
 		avg_rating = Rating.objects.filter(book=book).aggregate(Avg('rating')).get('rating__avg', 0)
 		print(6)
 		similar_books = [x.get('id', '') for x in client.send(RecommendItemsToItem(isbn, None, 10, cascade_create=True))['recomms']]
+		print("s"*100)
+		print(similar_books)
 		return render(request, 'bookdb/book_detail.html', {'isbn': isbn, 'comments': comments, 'avg_rating': avg_rating, 'similar': similar_books})
 	except Exception as e:
 		print(7)
@@ -129,6 +132,7 @@ def comment(request, isbn):
 		comment.save()
 		return redirect('bookdb:book_detail', isbn=isbn)
 	except Exception as e:
+		print("bd"*100)
 		print(e)
 	return redirect('bookdb:home')
 

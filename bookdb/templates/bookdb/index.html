@@ -37,14 +37,21 @@
 </div>
 	<div id="slidey" style="display:none;">
 		<ul>
-			<li><img src="{% static 'bookdb/images/5.jpg' %}" alt=" ">
-        <p class='title'>Tarzan</p>
-        <p class='description'> Tarzan, having acclimated to life in London, is called back to his former home in the jungle to investigate the activities at a mining encampment.</p></li>
-			<li><img src="{% static 'bookdb/images/2.jpg' %}" alt=" "><p class='title'>Maximum Ride</p><p class='description'>Six children, genetically cross-bred with avian DNA, take flight around the country to discover their origins. Along the way, their mysterious past is ...</p></li>
-			<li><img src="{% static 'bookdb/images/3.jpg' %}" alt=" "><p class='title'>Independence</p><p class='description'>The fate of humanity hangs in the balance as the U.S. President and citizens decide if these aliens are to be trusted ...or feared.</p></li>
-			<li><img src="{% static 'bookdb/images/4.jpg' %}" alt=" "><p class='title'>Central Intelligence</p><p class='description'>Bullied as a teen for being overweight, Bob Stone (Dwayne Johnson) shows up to his high school reunion looking fit and muscular. Claiming to be on a top-secret ...</p></li>
-			<li><img src="{% static 'bookdb/images/6.jpg' %}" alt=" "><p class='title'>Ice Age</p><p class='description'>In the film's epilogue, Scrat keeps struggling to control the alien ship until it crashes on Mars, destroying all life on the planet.</p></li>
-			<li><img src="{% static 'bookdb/images/7.jpg' %}" alt=" "><p class='title'>X - Man</p><p class='description'>In 1977, paranormal investigators Ed (Patrick Wilson) and Lorraine Warren come out of a self-imposed sabbatical to travel to Enfield, a borough in north ...</p></li>
+			<li><img src="{% static 'bookdb/images/b1.jpg' %}" alt=" ">
+        <p class='title'>John Green</p>
+        <p class='description'>"Sometimes, you read a book and it fills you with this weird evangelical zeal, and you become convinced that the shattered world will never be put back together unless and until all living humans read the book.” </p></li>
+			<li><img src="{% static 'bookdb/images/b2.jpg' %}" alt=" "><p class='title'>Jane Austen</p><p class='description'>
+				“I declare after all there is no enjoyment like reading! How much sooner one tires of any thing than of a book! -- When I have a house of my own, I shall be miserable if I have not an excellent library.” </p></li>
+			<li><img src="{% static 'bookdb/images/b3.jpg' %}" alt=" "><p class='title'>William Faulkner</p><p class='description'>
+				“Read, read, read. Read everything -- trash, classics, good and bad, and see how they do it. Just like a carpenter who works as an apprentice and studies the master. Read! You'll absorb it.
+Then write. If it's good, you'll find out. If it's not, throw it out of the window.” </p></li>
+			<li><img src="{% static 'bookdb/images/b4.jpg' %}" alt=" "><p class='title'>George R. R. Martin</p><p class='description'>
+				“A reader lives a thousand lives before he dies, said Jojen. The man who never reads lives only one.” </p></li>
+			<li><img src="{% static 'bookdb/images/b6.jpg' %}" alt=" "><p class='title'>Thomas Macaulay</p><p class='description'>
+
+“What a blessing it is to love books as I love them;- to be able to converse with the dead, and to live amidst the unreal!” </p></li>
+			<li><img src="{% static 'bookdb/images/b5.jpg' %}" alt=" "><p class='title'>Mortimer J. Adler</p><p class='description'>
+				“In the case of good books, the point is not to see how many of them you can get through, but rather how many can get through to you.”</p></li>
 		</ul>
     </div>
     <script src="{% static 'bookdb/js/jquery.slidey.js' %}"></script>
@@ -59,7 +66,8 @@
 			$(".slidey-list-description").dotdotdot();
 		</script>
 <!-- //banner -->
-<!-- banner-bottom -->
+<!-- banner-bottom --><br/><br/>
+	<h4 class="latest-text w3_latest_text w3_home_popular">Books According To Your Interests</h4>
 	<div class="banner-bottom">
 		<div class="container">
 			<div class="w3_agile_banner_bottom_grid">
@@ -67,8 +75,10 @@
           {% for i in recommended %}
           <script>
           $(document).ready(function(){
-            var key = "AIzaSyAUC4Z83BwfqovC75_njClnnSi8_Qu-avE";
-            var isbn="{{i}}";
+            var key = "AIzaSyCtDw2NDM3azfziwHJxACUII9W4j6POT0c";
+						var isbn="{{i}}";
+						var gurl2 = "https://www.googleapis.com/books/v1/volumes?q=isbn:"+isbn
+
             console.log("{{i}}","manish")
             var gurl = "https://www.googleapis.com/books/v1/volumes?q=isbn:"+isbn+"&key="+key
             console.log(gurl)
@@ -91,13 +101,13 @@
           </script>
 					<div class="item">
 						<div class="w3l-movie-gride-agile w3l-movie-gride-agile1">
-							<a href="single.html" class="hvr-shutter-out-horizontal">
+							<a href="{% url 'bookdb:book_detail' i %}" class="hvr-shutter-out-horizontal">
                 <img src="images/m13.jpg" title="album-name" class="img-responsive" alt=" " id="img{{i}}"/>
 								<div class="w3l-action-icon"><i class="fa fa-play-circle" aria-hidden="true"></i></div>
 							</a>
 							<div class="mid-1 agileits_w3layouts_mid_1_home">
 								<div class="w3l-movie-text">
-									<h6><a href="single.html" id="title{{i}}">Citizen Soldier</a></h6>
+									<h6><a href="{% url 'bookdb:book_detail' i %}" id="title{{i}}">Citizen Soldier</a></h6>
 									<br/>
 									<p id="auth{{i}}">2016</p>
 								</div>
@@ -121,9 +131,10 @@
 
 <!-- //general -->
 <!-- Latest-tv-series -->
+
 	<div class="Latest-tv-series">
-		<h4 class="latest-text w3_latest_text w3_home_popular">Most Popular Movies</h4>
-		<div class="container">
+		<h4 class="latest-text w3_latest_text w3_home_popular">Upcoming Books</h4>
+		<div class="container" style="width:750px">
 			<section class="slider">
 				<div class="flexslider">
 					<ul class="slides">
@@ -131,15 +142,15 @@
 							<div class="agile_tv_series_grid">
 								<div class="col-md-6 agile_tv_series_grid_left">
 									<div class="w3ls_market_video_grid1">
-										<img src="images/h1-1.jpg" alt=" " class="img-responsive" />
-										<a class="w3_play_icon" href="#small-dialog">
-											<span class="glyphicon glyphicon-play-circle" aria-hidden="true"></span>
-										</a>
+										<img src="{% static 'bookdb/images/ue2.jpg' %}" alt=" " height="500px" />
+
 									</div>
 								</div>
-								<div class="col-md-6 agile_tv_series_grid_right">
-									<p class="fexi_header">the conjuring 2</p>
-									<p class="fexi_header_para"><span class="conjuring_w3">Story Line<label>:</label></span> 720p,Bluray HD Free Movie Downloads, Watch Free Movies Online with high speed Free Movie Streaming | MyDownloadTube Lorraine and Ed Warren go to north London to help a single...</p>
+								<div class="col-md-6 agile_tv_series_grid_right" style="height:500px">
+									<p class="fexi_header">The Winds of Winter (A Song of Ice and Fire, #6) </p>
+									<p class="fexi_header_para"><span class="conjuring_w3">Story Line<label>:</label></span>The Winds of Winter is the forthcoming sixth novel in the epic fantasy series A Song of Ice and Fire by George R.R. Martin.
+
+The previous installment, A Dance with Dragons left several character threads ending in cliffhangers.</p>
 									<p class="fexi_header_para"><span>Date of Release<label>:</label></span> Jun 10, 2016 </p>
 									<p class="fexi_header_para">
 										<span>Genres<label>:</label> </span>
@@ -161,15 +172,13 @@
 							<div class="agile_tv_series_grid">
 								<div class="col-md-6 agile_tv_series_grid_left">
 									<div class="w3ls_market_video_grid1">
-										<img src="images/h2-1.jpg" alt=" " class="img-responsive" />
-										<a class="w3_play_icon1" href="#small-dialog1">
-											<span class="glyphicon glyphicon-play-circle" aria-hidden="true"></span>
-										</a>
+										<img src="{% static 'bookdb/images/ue1.jpg' %}" alt=" " height="500px"/>
+
 									</div>
 								</div>
-								<div class="col-md-6 agile_tv_series_grid_right">
-									<p class="fexi_header">a haunting in cawdor</p>
-									<p class="fexi_header_para"><span class="conjuring_w3">Story Line<label>:</label></span> Vivian Miller, sent to a rehabilitation programme for young offenders, where a theatre camp is used as an alternative to jail time. After she views tape ...</p>
+								<div class="col-md-6 agile_tv_series_grid_right" style="height:500px">
+									<p class="fexi_header">King of Scars (Nikolai Duology, #1) </p>
+									<p class="fexi_header_para"><span class="conjuring_w3">Story Line<label>:</label></span>Nikolai Lantsov has always had a gift for the impossible. No one knows what he endured in his country’s bloody civil war—and he intends to keep it that way. Now, as enemies gather at his weakened borders, the young king must find a way to refill Ravka’s coffers, and stop a rising threat to the once-great Grisha Army.</p>
 									<p class="fexi_header_para"><span>Date of Release<label>:</label></span> Oct 09, 2015 </p>
 									<p class="fexi_header_para">
 										<span>Genres<label>:</label> </span>
@@ -190,15 +199,13 @@
 							<div class="agile_tv_series_grid">
 								<div class="col-md-6 agile_tv_series_grid_left">
 									<div class="w3ls_market_video_grid1">
-										<img src="images/h3-1.jpg" alt=" " class="img-responsive" />
-										<a class="w3_play_icon2" href="#small-dialog2">
-											<span class="glyphicon glyphicon-play-circle" aria-hidden="true"></span>
-										</a>
+										<img src="{% static 'bookdb/images/ue3.jpg' %}" height="500px" alt=" " />
+
 									</div>
 								</div>
-								<div class="col-md-6 agile_tv_series_grid_right">
-									<p class="fexi_header">civil war captain America</p>
-									<p class="fexi_header_para"><span class="conjuring_w3">Story Line<label>:</label></span> After the Avengers leaves some&nbsp;collateral damage, political pressure mounts to install a system of accountability.&nbsp;The new status quo deeply divides ...</p>
+								<div class="col-md-6 agile_tv_series_grid_right"style="height:500px">
+									<p class="fexi_header">Kingdom of Ash (Throne of Glass, #7) </p>
+									<p class="fexi_header_para"><span class="conjuring_w3">Story Line<label>:</label></span> Years in the making, Sarah J. Maas’s #1 New York Times bestselling Throne of Glass series draws to an epic, unforgettable conclusion. Aelin Galathynius’s journey from slave to king’s assassin to the queen of a once-great kingdom reaches its heart-rending finale as war erupts across her world. . .</p>
 									<p class="fexi_header_para"><span>Date of Release<label>:</label></span> May 06, 2016 </p>
 									<p class="fexi_header_para">
 										<span>Genres<label>:</label> </span>

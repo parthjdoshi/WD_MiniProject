@@ -66,7 +66,7 @@
             var title = res["volumeInfo"]["title"];
             var avr = res["volumeInfo"]["averageRating"];
             var auth = res["volumeInfo"]["authors"][0];
-            var isbn = res["volumeInfo"]["industryIdentifiers"][1]["identifier"];
+            var isbn = res["volumeInfo"]["industryIdentifiers"][1]["type"]=="ISBN_10" ? res["volumeInfo"]["industryIdentifiers"][1]["identifier"] : res["volumeInfo"]["industryIdentifiers"][0]["identifier"];
             var urltodetails = "/site/book/"+isbn;
             console.log(urltodetails,"linj");
 

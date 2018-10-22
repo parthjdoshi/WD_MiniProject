@@ -1,137 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
 {% load static %}
-
-<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
-		function hideURLbar(){ window.scrollTo(0,1); } </script>
-<!-- //for-mobile-apps -->
-<link href="{% static 'bookdb/css/bootstrap.css' %}" rel="stylesheet" type="text/css" media="all" />
-<link href="{% static 'bookdb/css/style.css' %}" rel="stylesheet" type="text/css" media="all" />
-<link href="{% static 'bookdb/css/medile.css' %}" rel='stylesheet' type='text/css' />
-<link href="{% static 'bookdb/css/single.css' %}" rel='stylesheet' type='text/css' />
-<link rel="stylesheet" href="{% static 'bookdb/css/contactstyle.css' %}" type="text/css" media="all" />
-<link rel="stylesheet" href="{% static 'bookdb/css/faqstyle.css' %}" type="text/css" media="all" />
-<!-- news-css -->
-<link rel="stylesheet" href="{% static 'bookdb/news-css/news.css' %}" type="text/css" media="all" />
-<!-- //news-css -->
-<!-- list-css -->
-<link rel="stylesheet" href="{% static 'bookdb/list-css/list.css' %}" type="text/css" media="all" />
-<!-- //list-css -->
-<!-- font-awesome icons -->
-<link rel="stylesheet" href="{% static 'bookdb/css/font-awesome.min.css' %}" />
-<!-- //font-awesome icons -->
-<!-- js -->
-<script type="text/javascript" src="{% static 'bookdb/js/jquery-2.1.4.min.js' %}"></script>
-<!-- //js -->
-<link href='//fonts.googleapis.com/css?family=Roboto+Condensed:400,700italic,700,400italic,300italic,300' rel='stylesheet' type='text/css'>
-<!-- start-smoth-scrolling -->
-<script type="text/javascript" src="{% static 'bookdb/js/move-top.js' %}"></script>
-<script type="text/javascript" src="{% static 'bookdb/js/easing.js' %}"></script>
-<script type="text/javascript">
-	jQuery(document).ready(function($) {
-		$(".scroll").click(function(event){		
-			event.preventDefault();
-			$('html,body').animate({scrollTop:$(this.hash).offset().top},1000);
-		});
-	});
-</script>
-<!-- start-smoth-scrolling -->
-<link href="{% static 'bookdb/css/owl.carousel.css' %}" rel="stylesheet" type="text/css" media="all">
-<script src="{% static 'bookdb/js/owl.carousel.js' %}"></script>
-<script>
-	$(document).ready(function() { 
-		$("#owl-demo").owlCarousel({
-	 
-		  autoPlay: 3000, //Set AutoPlay to 3 seconds
-	 
-		  items : 5,
-		  itemsDesktop : [640,5],
-		  itemsDesktopSmall : [414,4]
-	 
-		});
-	 
-	}); 
-</script> 
-<script src="{% static 'bookdb/js/simplePlayer.js' %}"></script>
-<script>
-	$("document").ready(function() {
-		$("#video").simplePlayer();
-	});
-</script>
-
-</head>
-	
-<body>
-<!-- header -->
-	<div class="header">
-		<div class="container">
-			<div class="w3layouts_logo">
-				<a href="{% url 'bookdb:home' %}"><h1>One<span>Movies</span></h1></a>
-			</div>
-			<div class="w3l_sign_in_register">
-				<ul>
-					<li><i class="fa fa-phone" aria-hidden="true"></i> (+000) 123 345 653</li>
-					<li><a href="#" data-toggle="modal" data-target="#myModal">Login</a></li>
-				</ul>
-			</div>
-			<div class="clearfix"> </div>
-		</div>
-	</div>
-<!-- //header -->
-<!-- bootstrap-pop-up -->
-	<div class="modal video-modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModal">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					Sign In & Sign Up
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>						
-				</div>
-				<section>
-					<div class="modal-body">
-						<div class="w3_login_module">
-							<div class="module form-module">
-							  <div class="toggle"><i class="fa fa-times fa-pencil"></i>
-								<div class="tooltip">Click Me</div>
-							  </div>
-							  <div class="form">
-								<h3>Login to your account</h3>
-								<form action="#" method="post">
-								  <input type="text" name="Username" placeholder="Username" required="">
-								  <input type="password" name="Password" placeholder="Password" required="">
-								  <input type="submit" value="Login">
-								</form>
-							  </div>
-							  <div class="form">
-								<h3>Create an account</h3>
-								<form action="#" method="post">
-								  <input type="text" name="Username" placeholder="Username" required="">
-								  <input type="password" name="Password" placeholder="Password" required="">
-								  <input type="email" name="Email" placeholder="Email Address" required="">
-								  <input type="text" name="Phone" placeholder="Phone Number" required="">
-								  <input type="submit" value="Register">
-								</form>
-							  </div>
-							  <div class="cta"><a href="#">Forgot your password?</a></div>
-							</div>
-						</div>
-					</div>
-				</section>
-			</div>
-		</div>
-	</div>
-	<script>
-		$('.toggle').click(function(){
-		  // Switches the Icon
-		  $(this).children('i').toggleClass('fa-pencil');
-		  // Switches the forms  
-		  $('.form').animate({
-			height: "toggle",
-			'padding-top': 'toggle',
-			'padding-bottom': 'toggle',
-			opacity: "toggle"
-		  }, "slow");
-		});
-	</script>
 <!-- //bootstrap-pop-up -->
 <!-- nav -->
 	<div class="movies_nav">
@@ -149,7 +18,7 @@
 				<div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
 					<nav>
 						<ul class="nav navbar-nav">
-							<li class="w3_home_act"><a href="index.html">Home</a></li>
+							<li class="w3_home_act"><a href="{% url 'bookdb:home' %}">Home</a></li>
 							{% if request.user.is_authenticated %}
 							<li><a href="#">Dashboard</a></li>
 							<li><a href="#">Recommendations</a></li>
@@ -161,7 +30,7 @@
 						</ul>
 					</nav>
 				</div>
-			</nav>	
+			</nav>
 		</div>
 	</div>
 <!-- //nav -->
@@ -169,13 +38,13 @@
 <div class="single-page-agile-main">
 <div class="container">
 		<!-- /w3l-medile-movies-grids -->
-			
+
 			<div class="single-page-agile-info">
                    <!-- /movie-browse-agile -->
                            <div class="show-top-grids-w3lagile">
                 <script type="text/javascript">
                 	$(document).ready(function() {
-						var key = "AIzaSyAUC4Z83BwfqovC75_njClnnSi8_Qu-avE";
+						var key = "AIzaSyCtDw2NDM3azfziwHJxACUII9W4j6POT0c";
 						var isbn = "{{ isbn }}";
 						var gurl = "https://www.googleapis.com/books/v1/volumes?q=isbn:" + isbn + "&key=" + key;
 						console.log(gurl)
@@ -187,36 +56,54 @@
 							if (pic == null) {
 								pic = res["volumeInfo"]["imageLinks"]["thumbnail"];
 							}
+							var author = res["volumeInfo"]["authors"][0]
 							var description = res["searchInfo"]["textSnippet"];
 							var pdfAvailable = res["accessInfo"]["pdf"]["isAvailable"]
         					var readerLink = res["accessInfo"]["webReaderLink"]
-        					var title = res["volumeInfo"]["title"]
+        					var title = res["volumeInfo"]["title"];
+
+									var page = res["volumeInfo"]["pageCount"];
+									var mat = res["volumeInfo"]["maturityRating"];
+									var genre = res["volumeInfo"]["categories"][0];
+									var lnk = res["volumeInfo"]["infoLink"];
         					$("img[id='img{{isbn}}']").attr('src', pic);
-        					$("h3[id='title{{isbn}}']").text(title);
+        					$("a[id='inf{{isbn}}']").attr('href', lnk);
+        					$("h1[id='title{{isbn}}']").text(title);
         					$("p[id='desc{{isbn}}']").text(description);
+        					$("span[id='author{{isbn}}']").text(author);
+        					$("span[id='page{{isbn}}']").text(page);
+        					$("span[id='genre{{isbn}}']").text(genre);
+        					$("span[id='mat{{isbn}}']").text(mat);
 						}})
 					})
                 </script>
-				<div class="col-sm-8 single-left">
+				<div class="col-sm-8 single-left row">
+					<div class="col-md-4">
 					<div class="song">
 						<div class="song-info">
-							<h3 id="title{{isbn}}">THE LEGEND OF TARZAN - Official Trailer 2</h3>	
+							<h1 id="title{{isbn}}">Loading Book</h1>
 					</div>
 						<div class="image-grid-single-page-agileits">
-							<img src="images/5.jpg" alt="" class="img-responsive" id="img{{isbn}}"/>
+							<img src="images/5.jpg" alt="" class="img-responsive" id="img{{isbn}}" style="width:160px;height:200px"/><br/>
+							Author: <b><span id="author{{isbn}}"></span></b><br/>
+							Pages: <b><span id="page{{isbn}}"></span></b><br/>
 						</div>
 					</div>
-					
-					<p id="desc{{isbn}}"></p>
-					<p>Average Rating: {{ avg_rating }}</p>
+				</div>
+				<div class="col-md-7" style="height:100%; display:table-cell; vertical-align:middle">
+					<p id="desc{{isbn}}" style="font-size:20px"></p><br/>
+					<p style="font-size:17px">Average Rating: <b style="color:orange">{{ avg_rating }}</b></p><br/>
 					<form action="{% url 'bookdb:rate_book' isbn %}" method="post">
 						{% csrf_token %}
-						Your Rating: <input type="number" name="rating" min="0" max="10" required>
+						Your Rating: <input type="number" name="rating" min="0" max="10" style="width:100px" required>&nbsp;&nbsp;
 						<input type="submit" value="RATE">
-					</form>
-
+					</form><br/>
+						Genre: <b style=""><span id="genre{{isbn}}"></span></b><br/><br/>
+						Content: <b style="color:red"><span id="mat{{isbn}}"></span></b><br/><br/>
+						<button class="btn btn-warning" style="background-color:orange; color:black"><a href="#" id="inf{{isbn}}" style="color:black">More Info</a></button>
+				</div>
 					<div class="clearfix"> </div>
-
+					<br/><br/>
 					<div class="all-comments">
 						<div class="all-comments-info">
 							<h3>Comments</h3>
@@ -234,9 +121,9 @@
 							<div class="media">
 								<h5>{{ comment.user.user.first_name }} {{ comment.user.user.last_name }}</h5>
 								<div class="media-left">
-									
+
 									<img src="{{comment.user.photo.url}}" title="One movies" alt=" " height="60px" width="60px"/>
-									
+
 								</div>
 								<div class="media-body">
 									<p>{{comment.text}}</p>
@@ -245,15 +132,22 @@
 							{% endfor %}
 
 						</div>
+
+								<br/><br/><br/>
+								<h2>Preview</h2>:
+								<br/>
+						    <div id="viewerCanvas" style="width: 100%; height: 500px"></div>
+								<div id="errorc"></div>
+								<br/><br/><br/><br/>
 					</div>
 				</div>
-				<div class="col-md-4 single-right">
+				<div class="col-md-4 single-right" style="padding-right:30px">
 					<h3>Similar Books</h3>
 					<div class="single-grid-right">
 						{% for i in similar %}
 						<script>
 							$(document).ready(function() {
-								var key = "AIzaSyAUC4Z83BwfqovC75_njClnnSi8_Qu-avE";
+								var key = "AIzaSyCtDw2NDM3azfziwHJxACUII9W4j6POT0c";
 								var isbn = "{{ i }}";
 								var gurl = "https://www.googleapis.com/books/v1/volumes?q=isbn:" + isbn + "&key=" + key;
 								console.log(gurl)
@@ -264,10 +158,11 @@
 									var pic = res["volumeInfo"]["imageLinks"]["thumbnail"];
 									var description = res["searchInfo"]["textSnippet"];
 									var pdfAvailable = res["accessInfo"]["pdf"]["isAvailable"]
-                					var readerLink = res["accessInfo"]["webReaderLink"]
-                					var title = res["volumeInfo"]["title"]
-                					$("img[id='img{{i}}']").attr('src', pic);
-                					$("a[id='title{{i}}']").text(title);
+                	var readerLink = res["accessInfo"]["webReaderLink"]
+                	var title = res["volumeInfo"]["title"]
+          				$("img[id='img{{i}}']").attr('src', pic);
+      					$("a[id='title{{i}}']").text(title);
+													$("p[id='d{{i}}']").text(description);
 								}})
 							})
 						</script>
@@ -276,7 +171,8 @@
 								<a href="{% url 'bookdb:book_detail' i %}"><img src="images/m1.jpg" alt="" id="img{{i}}"/></a>
 							</div>
 							<div class="col-md-8 single-right-grid-right">
-								<a href="{% url 'bookdb:book_detail' i %}" class="title" id="title{{i}}"> Nullam interdum metus</a>
+								<b><a href="{% url 'bookdb:book_detail' i %}" class="title" id="title{{i}}"></a></b>
+								<p id="d{{i}}"></p>
 							</div>
 							<div class="clearfix"> </div>
 						</div>
@@ -284,18 +180,33 @@
 
 					</div>
 				</div>
-				
 
-				
+
+
 				<div class="clearfix"> </div>
 			</div>
 				<!-- //movie-browse-agile -->
 				<!--body wrapper start-->
-			
+
 		<!--body wrapper end-->
-						
-							 
-	
+		<script type="text/javascript" src="https://www.google.com/books/jsapi.js"></script>
+    <script type="text/javascript">
+      google.books.load();
+
+      function initialize() {
+        var viewer = new google.books.DefaultViewer(document.getElementById('viewerCanvas'));
+        viewer.load('ISBN:{{isbn}}', function(){
+					$('#errorc').text("Preview is not available with Google Books")
+					$("#viewerCanvas").css({"width":"0","height":"0"});
+				});
+      }
+
+      google.books.setOnLoadCallback(initialize);
+    </script>
+
+
+
+
 <!-- footer -->
 	<div class="footer">
 		<div class="container">
@@ -310,14 +221,14 @@
 <script src="{% static 'bookdb/js/bootstrap.min.js' %}"></script>
 <script>
 $(document).ready(function(){
-    $(".dropdown").hover(            
+    $(".dropdown").hover(
         function() {
             $('.dropdown-menu', this).stop( true, true ).slideDown("fast");
-            $(this).toggleClass('open');        
+            $(this).toggleClass('open');
         },
         function() {
             $('.dropdown-menu', this).stop( true, true ).slideUp("fast");
-            $(this).toggleClass('open');       
+            $(this).toggleClass('open');
         }
     );
 });
@@ -331,12 +242,12 @@ $(document).ready(function(){
 				containerID: 'toTop', // fading element id
 				containerHoverID: 'toTopHover', // fading element hover id
 				scrollSpeed: 1200,
-				easingType: 'linear' 
+				easingType: 'linear'
 				};
 			*/
-								
+
 			$().UItoTop({ easingType: 'easeOutQuart' });
-								
+
 			});
 	</script>
 <!-- //here ends scrolling icon -->
