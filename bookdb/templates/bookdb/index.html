@@ -22,12 +22,10 @@
 						<li class="active"><a href="index.html">Home</a></li>
 						<li><a href="{% url 'bookdb:search' %}">Search</a></li>
 						{% if request.user.is_authenticated %}
-						<li><a href="#">Dashboard</a></li>
-						<li><a href="#">Recommendations</a></li>
 
-						<li><a href="#">Logout</a></li>
+						<li><a href="{% url 'bookdb:logout' %}">Logout</a></li>
 						{% else %}
-						<li><a href="#">Register</a></li>
+						<li><a href="{% url 'bookdb:home' %}">Register</a></li>
 						{% endif %}
 					</ul>
 				</nav>

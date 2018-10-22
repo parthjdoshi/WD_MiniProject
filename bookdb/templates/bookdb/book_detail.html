@@ -20,10 +20,9 @@
 						<ul class="nav navbar-nav">
 							<li class="w3_home_act"><a href="{% url 'bookdb:home' %}">Home</a></li>
 							{% if request.user.is_authenticated %}
-							<li><a href="#">Dashboard</a></li>
-							<li><a href="#">Recommendations</a></li>
+							
 
-							<li><a href="#">Logout</a></li>
+							<li><a href="{% url 'bookdb:logout' %}">Logout</a></li>
 							{% else %}
 							<li><a href="#">Register</a></li>
 							{% endif %}
